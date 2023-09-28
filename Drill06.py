@@ -22,10 +22,8 @@ def handle_events():
             running = False
 def draw_hands():
     global hand_coord
-    for a in range(0, len(hand_coord) + 1, 2):
+    for a in range(0, len(hand_coord) , 2):
         hand_arrow.draw(hand_coord[a], hand_coord[a + 1])
-
-
 
 
 running = True
@@ -34,10 +32,14 @@ frame = 0
 now_boy_x, now_boy_y, past_boy_x, past_boy_y = 1280 // 2, 1024 // 2, 1280 // 2, 1024 // 2
 
 while running:
+
+    handle_events()
+
     if len(hand_coord) != 0:
         for i in range(0, 50+1):
             clear_canvas()
             TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+            handle_events()
             t = i / 50
             now_boy_x = (1 - t) * past_boy_x + t * hand_coord[0]
             now_boy_y = (1 - t) * past_boy_y + t * hand_coord[1]
@@ -48,5 +50,14 @@ while running:
             else:
                 character.clip_draw(frame * 100, 0, 100, 100, now_boy_x, now_boy_y)
             update_canvas()
-            handle_events()
-            delay(0.03)
+            delay(0.01)
+    else:
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        character.clip_draw(frame * 100, 100, 100, 100, now_boy_x, now_boy_y)
+        update_canvas()
+    del hand_coord[0:2]
+    past_boy_x = now_boy_x
+    past_boy_y = now_boy_y
+
+close_canvas()
