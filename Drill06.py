@@ -20,11 +20,33 @@ def handle_events():
                 hand_coord.append(TUK_HEIGHT - 1 - event.y)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+def draw_hands():
+    global hand_coord
+    for a in range(0, len(hand_coord) + 1, 2):
+        hand_arrow.draw(hand_coord[a], hand_coord[a + 1])
+
+
 
 
 running = True
 hand_coord = []
+frame = 0
 now_boy_x, now_boy_y, past_boy_x, past_boy_y = 1280 // 2, 1024 // 2, 1280 // 2, 1024 // 2
 
 while running:
-
+    if len(hand_coord) != 0:
+        for i in range(0, 50+1):
+            clear_canvas()
+            TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+            t = i / 50
+            now_boy_x = (1 - t) * past_boy_x + t * hand_coord[0]
+            now_boy_y = (1 - t) * past_boy_y + t * hand_coord[1]
+            frame = (frame + 1) % 8
+            draw_hands()
+            if hand_coord[0] > now_boy_x:
+                character.clip_draw(frame * 100, 100, 100, 100, now_boy_x, now_boy_y)
+            else:
+                character.clip_draw(frame * 100, 0, 100, 100, now_boy_x, now_boy_y)
+            update_canvas()
+            handle_events()
+            delay(0.03)
