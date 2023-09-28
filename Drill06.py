@@ -54,7 +54,7 @@ while running:
     else:
         clear_canvas()
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-        character.clip_draw(frame * 100, 100, 100, 100, now_boy_x, now_boy_y)
+        character.clip_draw(frame * 100, 300, 100, 100, now_boy_x, now_boy_y)
         update_canvas()
     del hand_coord[0:2]
     past_boy_x = now_boy_x
